@@ -40,6 +40,42 @@ namespace yourmt.Sockets
             IsDisposed = false;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Socket"/> class using the specified parameters.
+        /// This constructor is used for internal initialization of <see cref="Accept"/>ed sockets.
+        /// </summary>
+        /// <param name="thisPtr">
+        /// Type: <see cref="System.IntPtr"/>
+        /// TODO: Update summary.
+        /// </param>
+        /// <param name="isBound">
+        /// Type: <see cref="System.Boolean"/>
+        /// TODO: Update summary.
+        /// </param>
+        /// <param name="isConnected">
+        /// Type: <see cref="System.Boolean"/>
+        /// TODO: Update summary.
+        /// </param>
+        /// <param name="addressFamily">
+        /// Type: <see cref="yourmt.Sockets.AddressFamily"/>
+        /// TODO: Update summary.
+        /// </param>
+        /// <param name="socketType">
+        /// Type: <see cref="yourmt.Sockets.SocketType"/>
+        /// TODO: Update summary.
+        /// </param>
+        /// <param name="protocolType">
+        /// Type: <see cref="yourmt.Sockets.ProtocolType"/>
+        /// TODO: Update summary.
+        /// </param>
+        /// <param name="host">
+        /// Type: <see cref="System.String"/>
+        /// TODO: Update summary.
+        /// </param>
+        /// <param name="port">
+        /// Type: <see cref="System.Int32"/>
+        /// TODO: Update summary.
+        /// </param>
         private Socket(IntPtr thisPtr,
                        Boolean isBound,
                        Boolean isConnected,
@@ -83,7 +119,8 @@ namespace yourmt.Sockets
         }
 
         /// <summary>
-        /// Associates the <see cref="Socket"/> with a local endpoint. The endpoint is specified by a host name and a port number.
+        /// Associates the <see cref="Socket"/> with a local endpoint.
+        /// The endpoint is specified by a host name and a port number.
         /// </summary>
         /// <param name="host">
         /// Type: <see cref="System.String"/>
@@ -217,11 +254,46 @@ namespace yourmt.Sockets
             return Send(buffer, SocketFlags.None);
         }
 
+        /// <summary>
+        /// Sends data from a buffer through the <see cref="Socket"/>, using the specified <see cref="SocketFlags"/>.
+        /// </summary>
+        /// <param name="buffer">
+        /// Type: <see cref="System.Byte[]"/>
+        /// An <see cref="Array"/> of type <see cref="Byte"/> that contains the data to be sent.
+        /// </param>
+        /// <param name="flags">
+        /// Type: <see cref="yourmt.Sockets.SocketFlags"/>
+        /// A bitwise combination of the <see cref="SocketFlags"/> values.
+        /// </param>
+        /// <returns>
+        /// Type: <see cref="System.Int32"/>
+        /// The number of bytes sent.
+        /// </returns>
         public Int32 Send(Byte[] buffer, SocketFlags flags)
         {
             return Send(buffer, buffer.Length, flags);
         }
 
+        /// <summary>
+        /// Sends the specified number of bytes of data from a buffer through the <see cref="Socket"/>,
+        /// using the specified <see cref="SocketFlags"/>.
+        /// </summary>
+        /// <param name="buffer">
+        /// Type: <see cref="System.Byte[]"/>
+        /// An <see cref="Array"/> of type <see cref="Byte"/> that contains the data to be sent.
+        /// </param>
+        /// <param name="size">
+        /// Type: <see cref="System.Int32"/>
+        /// The number of bytes to send.
+        /// </param>
+        /// <param name="flags">
+        /// Type: <see cref="yourmt.Sockets.SocketFlags"/>
+        /// A bitwise combination of the <see cref="SocketFlags"/> values.
+        /// </param>
+        /// <returns>
+        /// Type: <see cref="System.Int32"/>
+        /// The number of bytes sent.
+        /// </returns>
         public Int32 Send(Byte[] buffer, Int32 size, SocketFlags flags)
         {
             Int32 res = WinSock2.send(Handle, buffer, size, flags);
@@ -231,6 +303,17 @@ namespace yourmt.Sockets
             return res; // Sent
         }
 
+        /// <summary>
+        /// Sends data from a string through the <see cref="Socket"/>.
+        /// </summary>
+        /// <param name="buffer">
+        /// Type: <see cref="System.String"/>
+        /// A <see cref="String"/> that contains the data to be sent.
+        /// </param>
+        /// <returns>
+        /// Type: <see cref="System.Int32"/>
+        /// The number of bytes sent.
+        /// </returns>
         public Int32 Send(String buffer)
         {
             return Send(System.Text.Encoding.Default.GetBytes(buffer), SocketFlags.None);
@@ -252,11 +335,46 @@ namespace yourmt.Sockets
             return Receive(buffer, SocketFlags.None);
         }
 
+        /// <summary>
+        /// Receives data from the <see cref="Socket"/> into a buffer, using the specified <see cref="SocketFlags"/>.
+        /// </summary>
+        /// <param name="buffer">
+        /// Type: <see cref="System.Byte[]"/>
+        /// An <see cref="Array"/> of type <see cref="Byte"/> that is the storage location for the received data.
+        /// </param>
+        /// <param name="flags">
+        /// Type: <see cref="yourmt.Sockets.SocketFlags"/>
+        /// A bitwise combination of the <see cref="SocketFlags"/> values.
+        /// </param>
+        /// <returns>
+        /// Type: <see cref="System.Int32"/>
+        /// The number of bytes received.
+        /// </returns>
         public Int32 Receive(Byte[] buffer, SocketFlags flags)
         {
             return Receive(buffer, buffer.Length, SocketFlags.None);
         }
 
+        /// <summary>
+        /// Receives the specified number of bytes of data from the <see cref="Socket"/> into a buffer,
+        /// using the specified <see cref="SocketFlags"/>.
+        /// </summary>
+        /// <param name="buffer">
+        /// Type: <see cref="System.Byte[]"/>
+        /// An <see cref="Array"/> of type <see cref="Byte"/> that is the storage location for the received data.
+        /// </param>
+        /// <param name="size">
+        /// Type: <see cref="System.Int32"/>
+        /// The number of bytes to receive.
+        /// </param>
+        /// <param name="flags">
+        /// Type: <see cref="yourmt.Sockets.SocketFlags"/>
+        /// A bitwise combination of the <see cref="SocketFlags"/> values.
+        /// </param>
+        /// <returns>
+        /// Type: <see cref="System.Int32"/>
+        /// The number of bytes received.
+        /// </returns>
         public Int32 Receive(Byte[] buffer, Int32 size, SocketFlags flags)
         {
             Int32 res = WinSock2.recv(Handle, buffer, size, flags);
